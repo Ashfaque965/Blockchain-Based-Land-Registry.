@@ -1,380 +1,226 @@
-# Blockchain-Based Land Registry
+# Land Registry Frontend
 
-A decentralized land registry system built with Hyperledger Fabric, Node.js, and MongoDB. This solution ensures immutable ownership records and transparent transaction history for land properties.
+React-based frontend application for the Blockchain-Based Land Registry system.
 
 ## Features
 
-- **Digital Ownership Certificates**: Blockchain-verified ownership certificates for properties
-- **Immutable Record Keeping**: All property records and transfers stored on Hyperledger Fabric
-- **Transaction History Tracking**: Complete audit trail of all ownership transfers
-- **Smart Contract-Based Transfers**: Automated ownership transfer via smart contracts
-- **User Authentication**: Secure JWT-based authentication
-- **Ownership Verification**: Real-time verification of property ownership
-- **Audit Trail**: Comprehensive audit logs with date range filtering
-- **REST API**: Complete REST API for all operations
+- **User Authentication**: Secure login and registration
+- **Dashboard**: Overview of properties and statistics
+- **Property Management**: Register, view, and manage properties
+- **Ownership Transfers**: Execute and track property transfers
+- **Verification System**: Verify ownership and generate certificates
+- **User Profile**: Manage personal information and properties
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
 
-## Tech Stack
+## Technology Stack
 
-- **Blockchain**: Hyperledger Fabric 2.5
-- **Backend**: Node.js with Express.js
-- **Database**: MongoDB
-- **Authentication**: JWT
-- **Containerization**: Docker & Docker Compose
-
-## Project Structure
-
-```
-blockchain-based-land-registry/
-├── chaincode/                  # Hyperledger Fabric Smart Contracts
-│   └── landRegistry/
-│       ├── landRegistry.js     # Main contract logic
-│       └── package.json
-├── backend/                    # Node.js Backend API
-│   ├── src/
-│   │   ├── controllers/        # Request handlers
-│   │   ├── models/             # MongoDB schemas
-│   │   ├── routes/             # API routes
-│   │   ├── middleware/         # Express middleware
-│   │   ├── config/             # Configuration files
-│   │   ├── utils/              # Utility functions
-│   │   └── index.js            # Application entry point
-│   ├── Dockerfile
-│   ├── package.json
-│   └── .env.example
-├── docker/                     # Docker configuration
-│   └── docker-compose.yml
-└── README.md
-```
+- React 18
+- React Router v6
+- Axios for API calls
+- React Toastify for notifications
+- React Icons
+- CSS3 with responsive design
 
 ## Installation
 
 ### Prerequisites
 
 - Node.js >= 16.0.0
-- MongoDB >= 4.4
-- Docker & Docker Compose (optional)
-- Hyperledger Fabric Network (for production)
+- npm >= 8.0.0
 
-### Local Setup
+### Setup
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/land-registry-blockchain.git
-   cd land-registry-blockchain
-   ```
+1. **Install dependencies**:
+```bash
+npm install
+```
 
-2. **Install backend dependencies**:
-   ```bash
-   cd backend
-   npm install
-   ```
+2. **Configure environment**:
+```bash
+cp .env.example .env
+# Edit .env with your API URL
+REACT_APP_API_URL=http://localhost:3000/api
+```
 
-3. **Install chaincode dependencies**:
-   ```bash
-   cd ../chaincode/landRegistry
-   npm install
-   ```
+3. **Start development server**:
+```bash
+npm start
+```
 
-4. **Configure environment variables**:
-   ```bash
-   cd ../../backend
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
+The application will open at `http://localhost:3000`
 
-5. **Start MongoDB**:
-   ```bash
-   # Using Docker
-   docker run -d -p 27017:27017 --name mongodb mongo:6.0
-   
-   # Or using local installation
-   mongod
-   ```
+## Project Structure
 
-6. **Start the backend server**:
-   ```bash
-   npm run dev
-   ```
+```
+frontend/
+├── public/              # Static files
+├── src/
+│   ├── components/      # Reusable components
+│   │   ├── Navbar.js
+│   │   └── ProtectedRoute.js
+│   ├── pages/           # Page components
+│   │   ├── HomePage.js
+│   │   ├── LoginPage.js
+│   │   ├── RegisterPage.js
+│   │   ├── DashboardPage.js
+│   │   ├── PropertiesPage.js
+│   │   ├── TransfersPage.js
+│   │   ├── VerificationPage.js
+│   │   └── ProfilePage.js
+│   ├── services/        # API services
+│   │   └── api.js
+│   ├── context/         # React Context
+│   │   └── AuthContext.js
+│   ├── styles/          # CSS files
+│   ├── App.js           # Main component
+│   └── index.js         # Entry point
+├── package.json
+└── README.md
+```
 
-   The API will be available at `http://localhost:3000`
+## Available Pages
 
-### Docker Setup
+### Public Pages
+- **Home** (`/`) - Landing page with features overview
+- **Login** (`/login`) - User login
+- **Register** (`/register`) - User registration
 
-1. **Build and start containers**:
-   ```bash
-   docker-compose -f docker/docker-compose.yml up -d
-   ```
+### Protected Pages
+- **Dashboard** (`/dashboard`) - Overview and statistics
+- **Properties** (`/properties`) - Property management
+- **Transfers** (`/transfers`) - Property transfers
+- **Verify** (`/verify`) - Ownership verification
+- **Profile** (`/profile`) - User profile and settings
 
-2. **Check logs**:
-   ```bash
-   docker-compose -f docker/docker-compose.yml logs -f backend
-   ```
+## API Integration
 
-## API Endpoints
+The frontend communicates with the backend API using Axios. API endpoints are configured in `src/services/api.js`.
 
 ### Authentication
 
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - User login
-- `GET /api/auth/profile` - Get user profile (requires authentication)
-- `PUT /api/auth/profile` - Update user profile (requires authentication)
+- Tokens are stored in localStorage
+- Automatically added to API requests
+- Token expiration redirects to login
 
-### Properties
+### Error Handling
 
-- `POST /api/properties` - Register new property
-- `GET /api/properties` - Get all properties
-- `GET /api/properties/:propertyId` - Get specific property
-- `GET /api/properties/owner/:owner` - Get properties by owner
-- `PUT /api/properties/:propertyId` - Update property metadata
+- Global error handling with user-friendly messages
+- Toast notifications for success/error messages
+- Automatic logout on 401 responses
 
-### Transfers
+## Component Usage
 
-- `POST /api/transfers` - Transfer property ownership
-- `GET /api/transfers/property/:propertyId` - Get property transaction history
-- `GET /api/transfers/owner/:owner` - Get owner's transactions
-- `GET /api/transfers/:transactionId` - Get transaction details
+### Using Protected Routes
 
-### Verification
-
-- `POST /api/verify/ownership` - Verify property ownership
-- `GET /api/verify/history/:propertyId` - Verify transaction history
-- `GET /api/verify/audit/:propertyId` - Get audit trail
-- `GET /api/verify/certificate/:propertyId` - Generate digital certificate
-
-## Usage Examples
-
-### Register User
-
-```bash
-curl -X POST http://localhost:3000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "john_doe",
-    "email": "john@example.com",
-    "password": "SecurePass123!",
-    "fullName": "John Doe",
-    "documentId": "ID123456",
-    "phoneNumber": "+1234567890"
-  }'
+```jsx
+<Route
+  path="/dashboard"
+  element={
+    <ProtectedRoute>
+      <DashboardPage />
+    </ProtectedRoute>
+  }
+/>
 ```
 
-### Register Property
+### Using Auth Context
 
-```bash
-curl -X POST http://localhost:3000/api/properties \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{
-    "propertyId": "PROP-001",
-    "owner": "John Doe",
-    "location": "123 Main St, City, State",
-    "area": 5000,
-    "coordinates": {"latitude": 40.7128, "longitude": -74.0060},
-    "metadata": {"bedrooms": 4, "bathrooms": 2}
-  }'
+```jsx
+const { user, isAuthenticated, login, logout } = useAuth();
 ```
 
-### Transfer Property
+### API Calls
 
-```bash
-curl -X POST http://localhost:3000/api/transfers \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{
-    "propertyId": "PROP-001",
-    "newOwner": "Jane Smith",
-    "transferDetails": {
-      "price": 500000,
-      "currency": "USD",
-      "description": "Ownership transfer"
-    }
-  }'
+```jsx
+import { propertyService } from '../services/api';
+
+const properties = await propertyService.getAllProperties(page, limit);
 ```
 
-### Verify Ownership
+## Styling
+
+The application uses custom CSS with a responsive design. Main style files:
+
+- `styles/global.css` - Global styles and utilities
+- `styles/navbar.css` - Navigation styles
+- `styles/auth.css` - Authentication pages
+- `styles/dashboard.css` - Dashboard layout
+- `styles/properties.css` - Properties page
+- `styles/transfers.css` - Transfers page
+- `styles/verification.css` - Verification page
+- `styles/profile.css` - Profile page
+- `styles/home.css` - Home page
+
+## Building for Production
 
 ```bash
-curl -X POST http://localhost:3000/api/verify/ownership \
-  -H "Content-Type: application/json" \
-  -d '{
-    "propertyId": "PROP-001",
-    "owner": "John Doe"
-  }'
+npm run build
 ```
 
-## Smart Contracts
+This creates an optimized production build in the `build/` directory.
 
-The Hyperledger Fabric chaincode implements the following functions:
+## Environment Variables
 
-### registerProperty
-Registers a new property on the blockchain.
+```
+REACT_APP_API_URL=http://localhost:3000/api
+```
 
-**Parameters**:
-- `propertyId`: Unique property identifier
-- `owner`: Owner's name/ID
-- `location`: Property location
-- `area`: Property area in sq. ft
-- `metadata`: Additional property details (JSON string)
+## Browser Support
 
-### transferOwnership
-Transfers property ownership and records the transaction.
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
-**Parameters**:
-- `propertyId`: Property identifier
-- `newOwner`: New owner's name/ID
-- `transferDetails`: Transfer details (JSON string)
+## Performance Optimization
 
-### getProperty
-Retrieves property details from the blockchain.
-
-**Parameters**:
-- `propertyId`: Property identifier
-
-### verifyOwnership
-Verifies if a person owns a specific property.
-
-**Parameters**:
-- `propertyId`: Property identifier
-- `owner`: Owner to verify
-
-### getTransferHistory
-Retrieves complete transfer history for a property.
-
-**Parameters**:
-- `propertyId`: Property identifier
-
-## Security Considerations
-
-- All sensitive data is encrypted in transit using HTTPS/TLS
-- JWT tokens expire after 24 hours
-- Passwords are hashed using bcryptjs
-- MongoDB uses authentication
-- API requests are validated and sanitized
-- CORS is configured securely
-- Helmet.js is used for HTTP security headers
+- Code splitting with React Router
+- Lazy loading of routes
+- Optimized API calls
+- CSS minification in production
+- Image optimization
 
 ## Testing
 
-Run tests using:
-
 ```bash
-cd backend
 npm test
 ```
 
-## Database Schema
-
-### Property Collection
-```javascript
-{
-  propertyId: String (unique, indexed),
-  owner: String (indexed),
-  location: String,
-  area: Number,
-  coordinates: { latitude: Number, longitude: Number },
-  metadata: Object,
-  registrationDate: Date,
-  lastUpdated: Date,
-  status: String,
-  blockchainHash: String (unique),
-  transactionHistory: Array,
-  documents: Array
-}
-```
-
-### User Collection
-```javascript
-{
-  username: String (unique, indexed),
-  email: String (unique, indexed),
-  password: String (hashed),
-  fullName: String,
-  role: String,
-  documentId: String,
-  properties: Array (references),
-  isVerified: Boolean,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-### Transaction Collection
-```javascript
-{
-  transactionId: String (unique, indexed),
-  propertyId: String (indexed),
-  fromOwner: String,
-  toOwner: String,
-  type: String,
-  status: String,
-  blockchainHash: String,
-  details: Object,
-  timestamp: Date (indexed),
-  verificationDate: Date
-}
-```
-
-## Deployment
-
-### Production Deployment
-
-1. **Configure environment variables** for production
-2. **Use managed database services** (e.g., MongoDB Atlas)
-3. **Enable HTTPS** with valid certificates
-4. **Set up proper monitoring and logging**
-5. **Use environment-specific secrets management**
-6. **Implement rate limiting**
-7. **Set up automated backups**
-
-### Hyperledger Fabric Network Setup
-
-Refer to the [Hyperledger Fabric documentation](https://hyperledger-fabric.readthedocs.io/) for setting up a production blockchain network.
-
 ## Troubleshooting
 
-### Connection Issues
-- Verify MongoDB is running on port 27017
-- Check Hyperledger Fabric network connectivity
-- Ensure correct environment variables are set
+### API Connection Failed
+- Ensure backend server is running on `http://localhost:3000`
+- Check `REACT_APP_API_URL` in .env
+- Verify CORS configuration on backend
 
-### Authentication Errors
-- Verify JWT_SECRET is properly configured
-- Check token expiration and refresh logic
-- Validate user credentials in database
+### Login Issues
+- Clear localStorage: `localStorage.clear()`
+- Check token validity
+- Verify backend authentication service
 
-### Transaction Failures
-- Verify property exists before transferring
-- Check for sufficient permissions
-- Review blockchain network logs
+### Styling Issues
+- Clear browser cache
+- Run `npm install` to ensure dependencies
+- Check CSS file paths
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Create feature branch: `git checkout -b feature/name`
+2. Make changes and test locally
+3. Commit with clear message: `git commit -m "feat: description"`
+4. Push and create pull request
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the LICENSE file for details.
+Apache 2.0 License
 
-## Contact
+## Support
 
-For questions and support, please contact the development team or open an issue on GitHub.
+For issues and questions:
+- GitHub Issues
+- Check existing documentation
+- Review API documentation
 
-## References
+---
 
-- [Hyperledger Fabric Documentation](https://hyperledger-fabric.readthedocs.io/)
-- [Node.js Documentation](https://nodejs.org/docs/)
-- [MongoDB Documentation](https://docs.mongodb.com/)
-- [Express.js Documentation](https://expressjs.com/)
-
-## Changelog
-
-### Version 1.0.0 (2026-01-21)
-- Initial release
-- Core features: property registration, ownership transfer, verification
-- REST API implementation
-- MongoDB integration
-- Hyperledger Fabric chaincode
+Happy coding! 🚀

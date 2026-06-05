@@ -1,0 +1,144 @@
+/* Profile Styles */
+.profile-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.profile-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 0.75rem;
+  padding: 3rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-avatar {
+  font-size: 5rem;
+  opacity: 0.9;
+}
+
+.profile-info h1,
+.profile-info p {
+  color: white;
+  margin: 0.25rem 0;
+}
+
+.profile-info h1 {
+  font-size: 2rem;
+}
+
+.profile-email {
+  opacity: 0.9;
+}
+
+.profile-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.profile-card h2 {
+  margin-top: 0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-card h2 {
+  margin: 0;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: var(--light-color);
+  border-radius: 0.5rem;
+}
+
+.detail-item .label {
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+.detail-item .value {
+  color: var(--text-color);
+}
+
+.properties-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.property-item {
+  background-color: var(--light-color);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.property-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.property-item-header h4 {
+  margin: 0;
+}
+
+.property-item p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .profile-content {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .property-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
