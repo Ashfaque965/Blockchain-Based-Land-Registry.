@@ -1,0 +1,23 @@
+{
+  "name": "land-registry-chaincode",
+  "version": "1.0.0",
+  "description": "Hyperledger Fabric chaincode for land registry",
+  "main": "landRegistry.js",
+  "scripts": {
+    "start": "fabric-chaincode-node start",
+    "test": "jest"
+  },
+  "keywords": ["land-registry", "blockchain", "hyperledger", "fabric"],
+  "author": "Land Registry Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "fabric-contract-api": "^2.5.0",
+    "fabric-shim": "^2.5.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "engines": {
+    "node": "^16.0.0"
+  }
+}
